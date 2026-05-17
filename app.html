@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&lt;blanko.&gt; — Design Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0d0d0d; --ink2:#1c1c1c; --ash:#6a6a6a; --fog:#e0e0de;
+  --mist:#f0f0ee; --snow:#fafafa; --white:#fff;
+  --green:#16a34a; --amber:#92400e; --red:#dc2626;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Instrument Sans',sans-serif;background:var(--snow);color:var(--ink);overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.75rem;height:58px;
+  background:rgba(250,250,250,0.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--fog);
+}
+.nav-left{display:flex;align-items:center;gap:0.75rem;}
+.nav-back{
+  display:flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border:1px solid var(--fog);border-radius:5px;
+  color:var(--ash);text-decoration:none;transition:background 0.15s;
+}
+.nav-back:hover{background:var(--mist);color:var(--ink);}
+.nav-brand{display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:var(--ink);}
+.logo-mark{width:28px;height:28px;background:var(--ink);border-radius:5px;display:flex;align-items:center;justify-content:center;}
+.logo-mark svg{width:15px;height:15px;}
+.brand-text{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:0.04em;}
+.nav-tabs{display:flex;gap:0;}
+.nav-tab{
+  padding:0 1.1rem;height:58px;display:flex;align-items:center;
+  font-size:0.82rem;font-weight:500;color:var(--ash);
+  cursor:pointer;border-bottom:2px solid transparent;
+  transition:color 0.15s,border-color 0.15s;white-space:nowrap;
+  background:none;border-top:none;border-left:none;border-right:none;
+  font-family:inherit;
+}
+.nav-tab:hover{color:var(--ink);}
+.nav-tab.active{color:var(--ink);border-bottom-color:var(--ink);}
+.nav-right{display:flex;align-items:center;gap:0.6rem;}
+.nav-icon{width:34px;height:34px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ash);border-radius:5px;transition:background 0.15s;position:relative;}
+.nav-icon:hover{background:var(--mist);color:var(--ink);}
+.badge{position:absolute;top:3px;right:3px;width:15px;height:15px;background:var(--ink);border-radius:50%;font-size:0.58rem;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.btn-start{background:var(--ink);color:#fff;border:none;cursor:pointer;padding:0.45rem 1.1rem;border-radius:5px;font-size:0.82rem;font-weight:600;font-family:inherit;transition:background 0.15s;}
+.btn-start:hover{background:var(--ink2);}
+
+/* ── PAGES ── */
+.page{display:none;padding-top:58px;min-height:100vh;}
+.page.active{display:block;}
+
+/* ══════════════════════
+   HOME PAGE
+══════════════════════ */
+.app-hero{
+  background:var(--ink);min-height:calc(100vh - 58px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:3rem 2rem;
+}
+.app-hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.5rem,8vw,7.5rem);line-height:0.92;letter-spacing:0.02em;color:#fff;
+}
+.app-hero h1 span{color:rgba(255,255,255,0.22);}
+.app-hero p{margin:1.5rem auto 0;max-width:480px;font-size:0.95rem;color:rgba(255,255,255,0.45);line-height:1.75;}
+.app-hero-btns{display:flex;gap:0.75rem;margin-top:2.25rem;justify-content:center;flex-wrap:wrap;}
+.btn-hw{background:#fff;color:var(--ink);border:none;cursor:pointer;padding:0.8rem 1.65rem;border-radius:5px;font-size:0.875rem;font-weight:700;font-family:inherit;display:flex;align-items:center;gap:0.5rem;transition:opacity 0.15s;}
+.btn-hw:hover{opacity:0.9;}
+.btn-ho{background:transparent;color:rgba(255,255,255,0.65);border:1px solid rgba(255,255,255,0.18);cursor:pointer;padding:0.8rem 1.65rem;border-radius:5px;font-size:0.875rem;font-weight:600;font-family:inherit;display:flex;align-items:center;gap:0.5rem;transition:border-color 0.15s;}
+.btn-ho:hover{border-color:rgba(255,255,255,0.5);}
+.app-feats{padding:4rem 2rem;background:#fff;text-align:center;}
+.app-feats h2{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.04em;margin-bottom:0.5rem;}
+.app-feats>p{font-size:0.875rem;color:var(--ash);margin-bottom:3rem;}
+.af-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:860px;margin:0 auto;}
+.af-item .af-icon{width:42px;height:42px;border:1.5px solid var(--fog);border-radius:7px;display:flex;align-items:center;justify-content:center;margin:0 auto 0.85rem;color:var(--ink);}
+.af-item h4{font-size:0.875rem;font-weight:700;margin-bottom:0.35rem;}
+.af-item p{font-size:0.78rem;color:var(--ash);line-height:1.65;}
+
+/* ══════════════════════
+   CREATE PAGE
+══════════════════════ */
+.studio-layout{
+  display:grid;grid-template-columns:268px 1fr 268px;
+  min-height:calc(100vh - 58px);
+}
+/* Left panel */
+.studio-left{border-right:1px solid var(--fog);background:#fff;display:flex;flex-direction:column;}
+.tool-tabs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--fog);flex-shrink:0;}
+.tool-tab{
+  padding:0.8rem 0;display:flex;flex-direction:column;align-items:center;gap:0.22rem;
+  font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--ash);cursor:pointer;border-bottom:2px solid transparent;transition:color 0.15s;
+  background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;
+}
+.tool-tab svg{width:16px;height:16px;}
+.tool-tab.active{color:var(--ink);border-bottom-color:var(--ink);}
+.tool-panel{display:none;padding:1.1rem;flex:1;overflow-y:auto;}
+.tool-panel.active{display:block;}
+.tp-label{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ash);margin-bottom:0.75rem;display:block;}
+
+/* Garment options */
+.gopt{border:1.5px solid var(--fog);border-radius:6px;padding:0.72rem 0.9rem;cursor:pointer;margin-bottom:0.4rem;transition:border-color 0.15s;}
+.gopt:hover{border-color:#aaa;}
+.gopt.sel{border-color:var(--ink);background:var(--mist);}
+.gopt-row{display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;font-weight:600;}
+.gopt-price{font-size:0.76rem;color:var(--ash);margin-top:0.12rem;}
+.check{color:var(--ink);}
+
+/* Colors */
+.swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:0.45rem;margin-bottom:0.7rem;}
+.sw{width:100%;aspect-ratio:1;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform 0.1s;}
+.sw:hover{transform:scale(1.12);}
+.sw.sel{border-color:var(--ink);box-shadow:0 0 0 2px #fff inset;}
+#color-lbl{font-size:0.78rem;color:var(--ash);}
+
+/* Upload */
+.upload-z{border:2px dashed var(--fog);border-radius:7px;padding:1.75rem 1rem;text-align:center;cursor:pointer;transition:border-color 0.15s;}
+.upload-z:hover{border-color:#aaa;}
+.upload-z p{font-size:0.76rem;color:var(--ash);margin-top:0.35rem;}
+.text-row{margin-top:1rem;}
+.text-row input{width:100%;padding:0.52rem 0.65rem;border:1.5px solid var(--fog);border-radius:5px;font-family:inherit;font-size:0.85rem;outline:none;transition:border-color 0.15s;}
+.text-row input:focus{border-color:var(--ink);}
+.text-row select{width:100%;padding:0.52rem 0.65rem;border:1.5px solid var(--fog);border-radius:5px;font-family:inherit;font-size:0.82rem;margin-top:0.4rem;outline:none;background:#fff;cursor:pointer;}
+.btn-sm-ink{width:100%;margin-top:0.4rem;padding:0.55rem;background:var(--ink);color:#fff;border:none;border-radius:5px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s;}
+.btn-sm-ink:hover{background:var(--ink2);}
+
+/* Draw */
+.dtool{padding:0.6rem 0.85rem;border:1.5px solid var(--fog);border-radius:5px;background:#fff;cursor:pointer;font-size:0.8rem;font-weight:500;font-family:inherit;display:flex;align-items:center;gap:0.45rem;transition:background 0.15s;margin-bottom:0.38rem;width:100%;}
+.dtool.active,.dtool:hover{background:var(--mist);border-color:#bbb;}
+.range-row{margin-top:0.85rem;}
+.range-row label{font-size:0.72rem;font-weight:600;color:var(--ash);display:block;margin-bottom:0.35rem;}
+input[type=range]{width:100%;accent-color:var(--ink);}
+input[type=color]{width:100%;height:32px;border:1px solid var(--fog);border-radius:5px;cursor:pointer;padding:2px;margin-top:0.35rem;}
+
+/* BULK ORDER panel */
+.bulk-note{font-size:0.8rem;color:var(--ash);line-height:1.65;margin-bottom:1rem;padding:0.7rem 0.85rem;background:var(--mist);border-radius:5px;border-left:3px solid var(--ink);}
+.bulk-row{margin-bottom:0.7rem;}
+.bulk-row label{font-size:0.72rem;font-weight:600;color:var(--ash);display:block;margin-bottom:0.3rem;letter-spacing:0.06em;text-transform:uppercase;}
+.bulk-row input{width:100%;padding:0.52rem 0.65rem;border:1.5px solid var(--fog);border-radius:5px;font-family:inherit;font-size:0.85rem;outline:none;transition:border-color 0.15s;}
+.bulk-row input:focus{border-color:var(--ink);}
+.bulk-discount{font-size:0.8rem;padding:0.6rem 0.85rem;border-radius:5px;background:#f0fdf4;border:1px solid #bbf7d0;color:var(--green);font-weight:600;margin-top:0.5rem;display:none;}
+
+/* Canvas center */
+.studio-center{background:#ebebeb;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.75rem;gap:0.75rem;}
+.canvas-wrap{position:relative;text-align:center;}
+#shirt-canvas{border-radius:3px;box-shadow:0 10px 40px rgba(0,0,0,0.15);display:block;cursor:crosshair;max-width:100%;}
+.canvas-label{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;}
+.canvas-ctrl{display:flex;gap:0.45rem;justify-content:center;}
+.cbtn{padding:0.35rem 0.75rem;border:1px solid #ccc;border-radius:4px;background:#fff;font-size:0.72rem;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.15s;}
+.cbtn:hover{background:#f0f0f0;}
+
+/* Right summary */
+.studio-right{border-left:1px solid var(--fog);background:#fff;padding:1.4rem;display:flex;flex-direction:column;gap:0;}
+.os-title{font-size:0.92rem;font-weight:700;margin-bottom:0.18rem;}
+.os-plan{font-size:0.75rem;color:var(--ash);margin-bottom:1.25rem;}
+.os-line{display:flex;justify-content:space-between;font-size:0.82rem;padding:0.48rem 0;border-bottom:1px solid #f5f5f5;}
+.os-lbl{color:var(--ash);}
+.free{color:var(--green);font-size:0.76rem;font-weight:600;}
+.qty-row{display:flex;align-items:center;gap:0.45rem;margin:0.8rem 0;}
+.qty-row label{font-size:0.78rem;color:var(--ash);}
+.qbtn{width:26px;height:26px;border:1px solid var(--fog);background:#fff;border-radius:4px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background 0.15s;font-family:inherit;}
+.qbtn:hover{background:var(--mist);}
+.qval{font-size:0.9rem;font-weight:700;min-width:22px;text-align:center;}
+.os-total{display:flex;justify-content:space-between;align-items:center;font-weight:700;padding:0.85rem 0 0;}
+.os-total .big{font-size:1.4rem;}
+.btn-cart{width:100%;margin-top:1.1rem;background:var(--ink);color:#fff;border:none;border-radius:5px;cursor:pointer;padding:0.8rem;font-size:0.875rem;font-weight:700;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:background 0.15s;}
+.btn-cart:hover{background:var(--ink2);}
+.ship-note{font-size:0.7rem;color:var(--ash);text-align:center;margin-top:0.5rem;}
+hr.div{border:none;border-top:1px solid var(--fog);margin:1.1rem 0;}
+.save-design-btn{width:100%;padding:0.65rem;border:1.5px solid var(--fog);background:#fff;border-radius:5px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:0.45rem;color:var(--ink);transition:background 0.15s;}
+.save-design-btn:hover{background:var(--mist);}
+.saved-toast{display:none;font-size:0.75rem;text-align:center;color:var(--green);font-weight:600;margin-top:0.4rem;}
+
+/* ══════════════════════
+   PRICING PAGE
+══════════════════════ */
+.pricing-page{padding:4rem 2rem 5rem;max-width:800px;margin:0 auto;}
+.pricing-page h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:0.04em;text-align:center;margin-bottom:0.65rem;}
+.pricing-page>p{text-align:center;font-size:0.875rem;color:var(--ash);max-width:480px;margin:0 auto 3rem;line-height:1.75;}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.pc{border:1.5px solid var(--fog);border-radius:8px;padding:2.1rem;position:relative;}
+.pc.feat{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);}
+.pc-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.26rem 0.75rem;border-radius:99px;white-space:nowrap;}
+.pc h3{font-size:1.15rem;font-weight:700;margin-bottom:0.28rem;}
+.pc .sub{font-size:0.8rem;color:var(--ash);margin-bottom:1.25rem;}
+.pc-price{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;letter-spacing:0.02em;margin-bottom:0.15rem;}
+.pc-price sup{font-size:1.3rem;vertical-align:super;}
+.pc-price span{font-size:0.95rem;font-family:'Instrument Sans',sans-serif;font-weight:400;color:var(--ash);}
+.pc hr{border:none;border-top:1px solid var(--fog);margin:1.25rem 0;}
+.pc ul{list-style:none;}
+.pc ul li{font-size:0.83rem;padding:0.42rem 0;border-bottom:1px solid #f5f5f5;display:flex;gap:0.55rem;color:var(--ash);}
+.pc ul li::before{content:'✓';color:var(--ink);font-weight:700;font-size:0.76rem;flex-shrink:0;margin-top:0.1rem;}
+.pc .btn-plan{width:100%;margin-top:1.6rem;padding:0.78rem;border-radius:5px;font-size:0.875rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:0.4rem;transition:opacity 0.15s;}
+.pc .btn-plan.outline{background:#fff;color:var(--ink);border:1.5px solid var(--fog);}
+.pc .btn-plan.solid{background:var(--ink);color:#fff;border:1.5px solid var(--ink);}
+.pc .btn-plan:hover{opacity:0.85;}
+
+/* ══════════════════════
+   ABOUT PAGE
+══════════════════════ */
+.about-page{max-width:760px;margin:0 auto;padding:4rem 2rem 5rem;}
+.about-page h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:0.04em;margin-bottom:2.5rem;}
+.about-sec{margin-bottom:3rem;}
+.about-sec h2{font-size:1.1rem;font-weight:700;margin-bottom:0.75rem;padding-bottom:0.6rem;border-bottom:1.5px solid var(--fog);}
+.about-sec p{font-size:0.9rem;color:var(--ash);line-height:1.8;margin-bottom:0.75rem;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;}
+.contact-card{background:var(--mist);border:1px solid var(--fog);border-radius:6px;padding:1.1rem;font-size:0.85rem;}
+.contact-card label{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ash);display:block;margin-bottom:0.35rem;}
+.contact-card a{color:var(--ink);text-decoration:none;font-weight:500;}
+
+/* ══════════════════════
+   ACCOUNT PAGE
+══════════════════════ */
+.acct-layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 58px);}
+.acct-sidebar{border-right:1px solid var(--fog);padding:1.6rem 1rem;background:#fff;}
+.profile-blob{text-align:center;padding:1.1rem 0.75rem 1.4rem;}
+.avatar{width:58px;height:58px;border-radius:50%;background:var(--mist);margin:0 auto 0.65rem;display:flex;align-items:center;justify-content:center;}
+.avatar svg{width:26px;height:26px;color:#bbb;}
+.profile-blob h4{font-size:0.9rem;font-weight:700;}
+.profile-blob p{font-size:0.74rem;color:var(--ash);}
+.club-badge{display:inline-block;margin-top:0.5rem;background:var(--ink);color:#fff;font-size:0.6rem;font-weight:700;letter-spacing:0.06em;padding:0.22rem 0.6rem;border-radius:99px;}
+.sb-item{display:flex;align-items:center;gap:0.55rem;padding:0.62rem 0.78rem;border-radius:5px;cursor:pointer;font-size:0.83rem;color:var(--ash);font-weight:500;transition:background 0.15s;margin-bottom:0.18rem;background:none;border:none;width:100%;font-family:inherit;text-align:left;}
+.sb-item:hover{background:var(--mist);color:var(--ink);}
+.sb-item.active{background:var(--ink);color:#fff;}
+.sb-item svg{width:14px;height:14px;flex-shrink:0;}
+.sb-out{display:flex;align-items:center;gap:0.55rem;padding:0.62rem 0.78rem;border-radius:5px;cursor:pointer;font-size:0.83rem;color:var(--red);font-weight:500;background:none;border:none;width:100%;font-family:inherit;text-align:left;margin-top:0.2rem;transition:background 0.15s;}
+.sb-out:hover{background:#fef2f2;}
+.sb-out svg{width:14px;height:14px;}
+.acct-main{padding:2.25rem;background:#fafafa;}
+.acct-panel{display:none;}
+.acct-panel.active{display:block;}
+.acct-panel h2{font-size:1.1rem;font-weight:700;margin-bottom:0.18rem;}
+.acct-panel>p{font-size:0.78rem;color:var(--ash);margin-bottom:1.75rem;}
+.info-card{background:#fff;border:1px solid var(--fog);border-radius:8px;padding:1.3rem;margin-bottom:0.9rem;}
+.ic-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.3rem;}
+.ic-head h4{font-size:0.875rem;font-weight:700;}
+.ic-head p{font-size:0.74rem;color:var(--ash);}
+.btn-edit{padding:0.3rem 0.75rem;border:1px solid var(--fog);border-radius:5px;background:#fff;font-size:0.75rem;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.15s;}
+.btn-edit:hover{background:var(--mist);}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-top:0.85rem;}
+.field label{font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#bbb;display:block;margin-bottom:0.28rem;}
+.field p{font-size:0.875rem;color:var(--ink);}
+.designs-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.dc{background:#fff;border:1px solid var(--fog);border-radius:8px;overflow:hidden;}
+.dc-img{aspect-ratio:4/3;overflow:hidden;background:var(--mist);}
+.dc-img img{width:100%;height:100%;object-fit:cover;}
+.dc-body{padding:0.85rem;}
+.dc-body h4{font-size:0.875rem;font-weight:700;margin-bottom:0.18rem;}
+.dc-body p{font-size:0.74rem;color:var(--ash);margin-bottom:0.7rem;}
+.dc-actions{display:flex;gap:0.4rem;}
+.btn-edit-d{flex:1;padding:0.5rem;background:var(--ink);color:#fff;border:none;border-radius:5px;font-size:0.76rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:0.35rem;transition:background 0.15s;}
+.btn-edit-d:hover{background:var(--ink2);}
+.btn-del{width:30px;height:30px;border:1px solid var(--fog);border-radius:5px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ash);transition:background 0.15s;}
+.btn-del:hover{background:#fef2f2;color:var(--red);}
+.order-row{background:#fff;border:1px solid var(--fog);border-radius:7px;padding:0.95rem 1.1rem;margin-bottom:0.6rem;display:flex;align-items:center;justify-content:space-between;}
+.ord-id{font-size:0.875rem;font-weight:700;}
+.ord-date{font-size:0.74rem;color:var(--ash);margin-top:0.1rem;}
+.flex-r{display:flex;align-items:center;gap:0.45rem;}
+.badge-del{font-size:0.62rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:99px;background:#dcfce7;color:var(--green);}
+.badge-proc{font-size:0.62rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:99px;background:#fef9c3;color:var(--amber);}
+.ord-total-col{text-align:right;}
+.otl{font-size:0.62rem;color:#bbb;text-transform:uppercase;letter-spacing:0.06em;}
+.otv{font-size:0.9rem;font-weight:700;}
+.btn-det{padding:0.4rem 0.85rem;border:1px solid var(--fog);border-radius:5px;background:#fff;font-size:0.76rem;font-weight:500;cursor:pointer;font-family:inherit;margin-left:0.8rem;white-space:nowrap;transition:background 0.15s;}
+.btn-det:hover{background:var(--mist);}
+
+/* ══════════════════════
+   CART PAGE
+══════════════════════ */
+.cart-layout{display:grid;grid-template-columns:1fr 290px;gap:2rem;max-width:920px;margin:0 auto;padding:2.25rem 2rem;min-height:calc(100vh - 120px);align-items:start;}
+.cart-main h2{font-size:1.3rem;font-weight:700;margin-bottom:0.28rem;}
+.cart-main>p{font-size:0.78rem;color:var(--ash);margin-bottom:1.3rem;}
+.cart-item{border:1.5px solid var(--fog);border-radius:8px;padding:1.1rem;display:flex;gap:1rem;align-items:flex-start;margin-bottom:0.75rem;}
+.ci-img{width:84px;height:84px;border-radius:5px;overflow:hidden;background:var(--mist);flex-shrink:0;}
+.ci-img img{width:100%;height:100%;object-fit:cover;}
+.ci-info{flex:1;}
+.ci-info h4{font-size:0.9rem;font-weight:700;}
+.ci-desc{font-size:0.76rem;color:var(--ash);margin:0.15rem 0 0.6rem;}
+.ci-qty{font-size:0.76rem;color:var(--ash);}
+.btn-rm{background:none;border:none;color:var(--red);font-size:0.74rem;font-weight:600;cursor:pointer;padding:0.28rem 0;font-family:inherit;display:flex;align-items:center;gap:0.28rem;margin-top:0.4rem;}
+.ci-price{font-size:0.98rem;font-weight:700;white-space:nowrap;}
+.cart-sidebar{background:#fff;border:1.5px solid var(--fog);border-radius:10px;padding:1.5rem;position:sticky;top:72px;}
+.cart-sidebar h3{font-size:0.92rem;font-weight:700;margin-bottom:1rem;}
+.sum-line{display:flex;justify-content:space-between;font-size:0.83rem;padding:0.42rem 0;}
+.sum-line .sl{color:var(--ash);}
+.sum-total{display:flex;justify-content:space-between;align-items:center;font-weight:700;border-top:1.5px solid var(--fog);margin-top:0.6rem;padding-top:0.85rem;}
+.sum-total .sp{font-size:1.4rem;}
+.btn-checkout{width:100%;margin-top:1rem;padding:0.82rem;background:var(--ink);color:#fff;border:none;border-radius:5px;font-size:0.875rem;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:0.4rem;transition:background 0.15s;}
+.btn-checkout:hover{background:var(--ink2);}
+.secure-note{display:flex;align-items:center;justify-content:center;gap:0.35rem;font-size:0.7rem;color:#bbb;margin-top:0.6rem;}
+
+/* Page footer */
+.pf{border-top:1px solid var(--fog);background:#fff;padding:1.1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+.pf-logo{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.04em;display:flex;align-items:center;gap:0.4rem;}
+.pf p{font-size:0.7rem;color:#bbb;}
+
+/* Responsive */
+@media(max-width:900px){
+  .studio-layout{grid-template-columns:1fr;}
+  .studio-right{border-left:none;border-top:1px solid var(--fog);}
+  .pc-grid{grid-template-columns:1fr;}
+  .acct-layout{grid-template-columns:1fr;}
+  .cart-layout{grid-template-columns:1fr;}
+  .designs-grid{grid-template-columns:1fr;}
+  .af-grid{grid-template-columns:1fr 1fr;}
+  .nav-tabs{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-back" title="Back to Home">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
+    <a href="#" class="nav-brand" onclick="showPage('home');return false;">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9 Q8 5 12 9 Q16 13 21 9"/><path d="M9 3 Q7 9 9 14"/></svg>
+      </div>
+      <span class="brand-text">&lt;blanko.&gt;</span>
+    </a>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="nt-home" onclick="showPage('home')">Home</button>
+    <button class="nav-tab" id="nt-create" onclick="showPage('create')">Create</button>
+    <button class="nav-tab" id="nt-pricing" onclick="showPage('pricing')">Pricing</button>
+    <button class="nav-tab" id="nt-about" onclick="showPage('about')">About Us</button>
+  </div>
+  <div class="nav-right">
+    <button class="nav-icon" onclick="showPage('account')" title="Account">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </button>
+    <button class="nav-icon" onclick="showPage('cart')" title="Cart">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="badge">1</span>
+    </button>
+    <button class="btn-start" onclick="showPage('create')">Start Designing</button>
+  </div>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+  <div class="app-hero">
+    <h1>YOUR CREATIVITY.<br><span>OUR CANVAS.</span></h1>
+    <p>We handle the manufacturing, sizing, and shipping. You just bring the design. Radically transparent pricing makes high-quality custom apparel affordable for everyone.</p>
+    <div class="app-hero-btns">
+      <button class="btn-hw" onclick="showPage('create')">Start Designing →</button>
+      <button class="btn-ho" onclick="showPage('pricing')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+        View Transparent Pricing
+      </button>
+    </div>
+  </div>
+  <div class="app-feats">
+    <h2>A MINIMALIST APPROACH TO CUSTOM CLOTHING.</h2>
+    <p>We cut out the middleman and the bloated software costs. Built for creators, orgs, and teams across the Philippines.</p>
+    <div class="af-grid">
+      <div class="af-item">
+        <div class="af-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+        <h4>Endless Colors</h4>
+        <p>Pick any shade or blank base. You decide the hue.</p>
+      </div>
+      <div class="af-item">
+        <div class="af-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg></div>
+        <h4>Multiple Styles</h4>
+        <p>Shirts, jackets, hoodies, shorts. You provide the art.</p>
+      </div>
+      <div class="af-icon-wrap af-item">
+        <div class="af-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20"/></svg></div>
+        <h4>Local & Affordable</h4>
+        <p>Production + minimal markup. No international fees.</p>
+      </div>
+      <div class="af-item">
+        <div class="af-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+        <h4>Premium Materials</h4>
+        <p>Unbranded blanks built for longevity. Comfort first.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pf">
+    <div class="pf-logo">
+      <div class="logo-mark" style="width:22px;height:22px;border-radius:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9 Q8 5 12 9 Q16 13 21 9"/><path d="M9 3 Q7 9 9 14"/></svg></div>
+      &lt;blanko.&gt;
+    </div>
+    <p>&copy; 2026 Blank Canvas Co. Affordable custom apparel for everyone.</p>
+    <div></div>
+  </div>
+</div>
+
+<!-- ══ CREATE ══ -->
+<div class="page" id="page-create">
+  <div class="studio-layout">
+    <!-- Left panel -->
+    <div class="studio-left">
+      <div class="tool-tabs">
+        <button class="tool-tab active" onclick="switchTool('base',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9 Q8 5 12 9 Q16 13 21 9"/></svg>BASE
+        </button>
+        <button class="tool-tab" onclick="switchTool('color',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2"/></svg>COLOR
+        </button>
+        <button class="tool-tab" onclick="switchTool('art',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 12l3 3 5-5"/></svg>ART
+        </button>
+        <button class="tool-tab" onclick="switchTool('draw',this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>DRAW
+        </button>
+        <!-- BULK TAB — Feature 3 -->
+        <button class="tool-tab" onclick="switchTool('bulk',this)" style="grid-column:span 4;border-top:1px solid var(--fog);font-size:0.58rem;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:14px;height:14px;"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          TEAM / BULK ORDER
+        </button>
+      </div>
+
+      <!-- BASE tab -->
+      <div class="tool-panel active" id="tp-base">
+        <span class="tp-label">Select Base Garment</span>
+        <div class="gopt sel" onclick="selGarment(this,'Classic T-Shirt',250)">
+          <div class="gopt-row">Classic T-Shirt <span class="check" id="ck0">✓</span></div>
+          <div class="gopt-price">Starts at ₱250</div>
+        </div>
+        <div class="gopt" onclick="selGarment(this,'Heavyweight Hoodie',550)">
+          <div class="gopt-row">Heavyweight Hoodie <span class="check" id="ck1"></span></div>
+          <div class="gopt-price">Starts at ₱550</div>
+        </div>
+        <div class="gopt" onclick="selGarment(this,'Sweatpants',400)">
+          <div class="gopt-row">Sweatpants <span class="check" id="ck2"></span></div>
+          <div class="gopt-price">Starts at ₱400</div>
+        </div>
+        <div class="gopt" onclick="selGarment(this,'Sleeveless Top',200)">
+          <div class="gopt-row">Sleeveless Top <span class="check" id="ck3"></span></div>
+          <div class="gopt-price">Starts at ₱200</div>
+        </div>
+        <div class="gopt" onclick="selGarment(this,'Zip Jacket',650)">
+          <div class="gopt-row">Zip Jacket <span class="check" id="ck4"></span></div>
+          <div class="gopt-price">Starts at ₱650</div>
+        </div>
+      </div>
+
+      <!-- COLOR tab -->
+      <div class="tool-panel" id="tp-color">
+        <span class="tp-label">Pick a Color</span>
+        <div class="swatches">
+          <div class="sw sel" style="background:#f5f5f0;border-color:#ccc" onclick="selColor(this,'Off White','#f5f5f0')" title="Off White"></div>
+          <div class="sw" style="background:#111" onclick="selColor(this,'Pitch Black','#111')" title="Pitch Black"></div>
+          <div class="sw" style="background:#d0d0d0" onclick="selColor(this,'Light Gray','#d0d0d0')" title="Light Gray"></div>
+          <div class="sw" style="background:#8B4513" onclick="selColor(this,'Chestnut','#8B4513')" title="Chestnut"></div>
+          <div class="sw" style="background:#1a3a5c" onclick="selColor(this,'Navy','#1a3a5c')" title="Navy"></div>
+          <div class="sw" style="background:#2d5a27" onclick="selColor(this,'Forest','#2d5a27')" title="Forest"></div>
+          <div class="sw" style="background:#c0392b" onclick="selColor(this,'Crimson','#c0392b')" title="Crimson"></div>
+          <div class="sw" style="background:#d4a017" onclick="selColor(this,'Mustard','#d4a017')" title="Mustard"></div>
+          <div class="sw" style="background:#5b2c8d" onclick="selColor(this,'Plum','#5b2c8d')" title="Plum"></div>
+          <div class="sw" style="background:#16a085" onclick="selColor(this,'Teal','#16a085')" title="Teal"></div>
+        </div>
+        <p id="color-lbl">Selected: Off White</p>
+      </div>
+
+      <!-- ART tab -->
+      <div class="tool-panel" id="tp-art">
+        <span class="tp-label">Upload Art</span>
+        <div class="upload-z" onclick="document.getElementById('art-file').click()">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p>Click to upload PNG, SVG, or JPG</p>
+          <p style="font-size:0.68rem;margin-top:0.22rem;">Max 10MB</p>
+        </div>
+        <input type="file" id="art-file" accept="image/*" style="display:none" onchange="loadArt(event)">
+        <div class="text-row">
+          <span class="tp-label" style="margin-top:1rem;display:block;">Text & Typography</span>
+          <input type="text" id="txt-input" placeholder="Type your text here...">
+          <select id="txt-font">
+            <option value="700 20px 'Bebas Neue'">Bebas Neue — Display</option>
+            <option value="700 18px 'Instrument Sans'" selected>Instrument Sans — Bold</option>
+            <option value="400 18px 'Instrument Serif'">Instrument Serif — Italic</option>
+            <option value="600 16px monospace">Monospace — Code</option>
+            <option value="400 22px serif">Classic Serif</option>
+          </select>
+          <input type="color" value="#111111" id="txt-color" style="margin-top:0.4rem;width:100%;height:30px;border:1px solid var(--fog);border-radius:5px;padding:2px;cursor:pointer;">
+          <button class="btn-sm-ink" onclick="addText()">Add Text to Design</button>
+        </div>
+      </div>
+
+      <!-- DRAW tab -->
+      <div class="tool-panel" id="tp-draw">
+        <span class="tp-label">Freehand Drawing</span>
+        <button class="dtool active" id="dtool-pen" onclick="setTool('pen',this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Pen / Draw
+        </button>
+        <button class="dtool" id="dtool-line" onclick="setTool('line',this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="19" x2="19" y2="5"/></svg>Straight Line
+        </button>
+        <button class="dtool" id="dtool-rect" onclick="setTool('rect',this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>Rectangle
+        </button>
+        <button class="dtool" id="dtool-circle" onclick="setTool('circle',this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>Circle
+        </button>
+        <button class="dtool" id="dtool-eraser" onclick="setTool('eraser',this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20H7L3 16l11-11 6 6z"/></svg>Eraser
+        </button>
+        <div class="range-row">
+          <label>Brush / Stroke Size</label>
+          <input type="range" min="1" max="50" value="6" id="brush-size" oninput="brushSz=+this.value">
+        </div>
+        <div class="range-row">
+          <label>Draw Color</label>
+          <input type="color" value="#111111" id="draw-color" oninput="drawCol=this.value">
+        </div>
+      </div>
+
+      <!-- BULK tab — Feature 3 -->
+      <div class="tool-panel" id="tp-bulk">
+        <span class="tp-label">Team / Bulk Order</span>
+        <div class="bulk-note">Order matching merch for your org, team, or brand. Discounts apply automatically based on quantity.</div>
+        <div class="bulk-row">
+          <label>Team / Org Name</label>
+          <input type="text" placeholder="e.g. CIT Computer Science Dept.">
+        </div>
+        <div class="bulk-row">
+          <label>Total Quantity</label>
+          <input type="number" id="bulk-qty" min="1" value="10" oninput="calcBulk(this.value)">
+        </div>
+        <div class="bulk-row">
+          <label>Notes / Size Breakdown</label>
+          <input type="text" placeholder="e.g. 3 S, 5 M, 2 L">
+        </div>
+        <div class="bulk-discount" id="bulk-disc"></div>
+        <button class="btn-sm-ink" style="margin-top:0.75rem;" onclick="alert('Bulk order request sent! We will contact you within 24 hours.')">Request Bulk Quote</button>
+      </div>
+    </div>
+
+    <!-- Center canvas -->
+    <div class="studio-center">
+      <div class="canvas-wrap">
+        <canvas id="shirt-canvas" width="460" height="520"></canvas>
+      </div>
+      <p class="canvas-label">Design Preview — Draw directly on the canvas</p>
+      <div class="canvas-ctrl">
+        <button class="cbtn" onclick="undoLast()">↩ Undo</button>
+        <button class="cbtn" onclick="clearDesign()">✕ Clear Design</button>
+        <button class="cbtn" onclick="toggleGrid()">⊞ Grid</button>
+      </div>
+    </div>
+
+    <!-- Right summary — Feature 2: Live Price Calculator -->
+    <div class="studio-right">
+      <div class="os-title">Order Summary</div>
+      <div class="os-plan">Standard Plan Pricing</div>
+      <div class="os-line"><span class="os-lbl">Garment (<span id="s-garment">Classic T-Shirt</span>)</span><span id="s-price">₱250.00</span></div>
+      <div class="os-line"><span class="os-lbl">Color (<span id="s-color">Off White</span>)</span><span class="free">Free</span></div>
+      <div class="os-line"><span class="os-lbl">Printing (Front)</span><span class="free">Free</span></div>
+      <div class="os-line"><span class="os-lbl">Platform Fee (15%)</span><span id="s-fee">₱37.50</span></div>
+      <div class="qty-row">
+        <label>Qty:</label>
+        <button class="qbtn" onclick="chQty(-1)">−</button>
+        <span class="qval" id="qval">1</span>
+        <button class="qbtn" onclick="chQty(1)">+</button>
+      </div>
+      <div class="os-total"><span>TOTAL</span><span class="big" id="s-total">₱287.50</span></div>
+      <button class="btn-cart" onclick="addToCartWithFeedback()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Add to Cart
+      </button>
+      <p class="ship-note">Shipping calculated at checkout.</p>
+      <hr class="div">
+      <!-- Feature 6: Save Design -->
+      <button class="save-design-btn" onclick="saveDesign()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Save Design
+      </button>
+      <div class="saved-toast" id="saved-toast">✓ Design saved to your account</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRICING ══ -->
+<div class="page" id="page-pricing">
+  <div class="pricing-page">
+    <h1>RADICALLY TRANSPARENT PRICING.</h1>
+    <p>You only cover what it takes to make the shirt, plus a small platform fee. Subscribe to Blank. Club and waive the fee entirely.</p>
+    <div class="pc-grid">
+      <div class="pc">
+        <h3>Standard</h3>
+        <p class="sub">Perfect for one-off designs and personal use.</p>
+        <div class="pc-price"><sup>₱</sup>0</div>
+        <hr>
+        <ul>
+          <li>Access to all base apparel types</li>
+          <li>Standard quality printing</li>
+          <li>Production cost + 15% platform fee</li>
+          <li>Standard shipping rates</li>
+          <li>Basic email support</li>
+          <li>Save up to 5 designs</li>
+        </ul>
+        <button class="btn-plan outline" onclick="showPage('create')">Start Designing Free →</button>
+      </div>
+      <div class="pc feat">
+        <div class="pc-tag">Most Value</div>
+        <h3>Blank. Club</h3>
+        <p class="sub">For small brands, local designers & frequent creators.</p>
+        <div class="pc-price"><sup>₱</sup>299<span>/month</span></div>
+        <hr>
+        <ul>
+          <li>Access to premium apparel & custom labels</li>
+          <li>High-fidelity DTG & Screen printing</li>
+          <li>0% platform fee — pay only raw production cost</li>
+          <li>Discounted local priority shipping</li>
+          <li>Priority manufacturing queue</li>
+          <li>Unlimited saved designs</li>
+          <li>Dedicated 24/7 support</li>
+        </ul>
+        <button class="btn-plan solid">Subscribe to Club →</button>
+      </div>
+    </div>
+  </div>
+  <div class="pf">
+    <div class="pf-logo"><div class="logo-mark" style="width:20px;height:20px;border-radius:3px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9 Q8 5 12 9 Q16 13 21 9"/><path d="M9 3 Q7 9 9 14"/></svg></div>&lt;blanko.&gt;</div>
+    <p>&copy; 2026 Blank Canvas Co. Affordable custom apparel for everyone.</p>
+    <div></div>
+  </div>
+</div>
+
+<!-- ══ ABOUT US ══ -->
+<div class="page" id="page-about">
+  <div class="about-page">
+    <h1>ABOUT BLANKO.</h1>
+    <div class="about-sec">
+      <h2>Our Mission</h2>
+      <p>blanko. was born from a simple frustration: why is custom merch in the Philippines so expensive and complicated? We built a platform that treats every user as an artist — giving them the blank, the tools, and the press — without the international shipping fees and bloated software costs.</p>
+      <p>Inspired by the freedom of designing your own Minecraft skin, blanko. brings that same joyful ownership to real-world merchandise. You design it, we make it, you wear it.</p>
+    </div>
+    <div class="about-sec">
+      <h2>Local Sourcing</h2>
+      <p>Every garment we use is sourced locally in the Philippines. Our printing partners are based right here in Cebu, which means faster turnaround, lower costs, and real accountability. No middlemen, no mystery.</p>
+      <p>We use quality blank garments — the same type used by independent clothing brands — and print using DTG (Direct-to-Garment) and screen printing depending on your design's needs.</p>
+    </div>
+    <div class="about-sec" id="contact">
+      <h2>Contact & Support</h2>
+      <div class="contact-grid">
+        <div class="contact-card"><label>Phone</label><a href="tel:+639912163058">+63 991 216 3058</a></div>
+        <div class="contact-card"><label>Email</label><a href="mailto:jusheeshthegreat@gmail.com">jusheeshthegreat@gmail.com</a></div>
+        <div class="contact-card"><label>School</label><a href="#">Cebu Institute of Technology</a></div>
+        <div class="contact-card"><label>Creator</label><a href="#">Joseph Cornejo</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="pf">
+    <div class="pf-logo"><div class="logo-mark" style="width:20px;height:20px;border-radius:3px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9 Q8 5 12 9 Q16 13 21 9"/><path d="M9 3 Q7 9 9 14"/></svg></div>&lt;blanko.&gt;</div>
+    <p>&copy; 2026 Blank Canvas Co. Business Website Proposal · Joseph Cornejo</p>
+    <div></div>
+  </div>
+</div>
+
+<!-- ══ ACCOUNT ══ -->
+<div class="page" id="page-account">
+  <div class="acct-layout">
+    <div class="acct-sidebar">
+      <div class="profile-blob">
+        <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <h4>Joseph Cornejo</h4>
+        <p>joseph@example.com</p>
+        <span class="club-badge">Blanko. Club Member</span>
+      </div>
+      <button class="sb-item active" onclick="switchAcct('info',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>User Account</button>
+      <button class="sb-item" onclick="switchAcct('designs',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved Designs</button>
+      <button class="sb-item" onclick="switchAcct('orders',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Order History</button>
+      <button class="sb-out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</button>
+    </div>
+    <div class="acct-main">
+      <div class="acct-panel active" id="ap-info">
+        <h2>User Account</h2>
+        <p>Manage your personal information and preferences.</p>
+        <div class="info-card">
+          <div class="ic-head"><div><h4>Personal Info</h4><p>Update your name and contact details.</p></div><button class="btn-edit">Edit</button></div>
+          <div class="field-grid">
+            <div class="field"><label>Full Name</label><p>Joseph Cornejo</p></div>
+            <div class="field"><label>Email</label><p>joseph@example.com</p></div>
+            <div class="field"><label>Phone</label><p>+Secret po</p></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="ic-head"><div><h4>Shipping Address</h4><p>Default destination for your creations.</p></div><button class="btn-edit">Edit</button></div>
+          <div style="margin-top:0.85rem;font-size:0.875rem;color:#444;line-height:1.75;">123 Creatives Lane, Brgy. San Lorenzo<br>Makati City, Metro Manila<br>Sa imong heart</div>
+        </div>
+      </div>
+      <div class="acct-panel" id="ap-designs">
+        <h2>Saved Designs</h2>
+        <p>Pick up where you left off or re-order past favorites.</p>
+        <div class="designs-grid">
+          <div class="dc">
+            <div class="dc-img"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80" alt="Summer Flame Tee"></div>
+            <div class="dc-body"><h4>Summer Flame Tee</h4><p>Classic T-Shirt · Off White</p>
+              <div class="dc-actions">
+                <button class="btn-edit-d" onclick="showPage('create')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Edit Design</button>
+                <button class="btn-del"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="dc">
+            <div class="dc-img"><img src="https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=400&q=80" alt="Midnight Cloud Hoodie"></div>
+            <div class="dc-body"><h4>Midnight Cloud Hoodie</h4><p>Heavyweight Hoodie · Pitch Black</p>
+              <div class="dc-actions">
+                <button class="btn-edit-d" onclick="showPage('create')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Edit Design</button>
+                <button class="btn-del"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="acct-panel" id="ap-orders">
+        <h2>Order History</h2>
+        <p>Track your recent shipments and past purchases.</p>
+        <div class="order-row">
+          <div><div class="flex-r"><span class="ord-id">ORD-98213-FL</span><span class="badge-del">DELIVERED</span></div><div class="ord-date">Placed Feb 28, 2026 · 2 items</div></div>
+          <div class="flex-r"><div class="ord-total-col"><div class="otl">Total</div><div class="otv">₱345.50</div></div><button class="btn-det">Details →</button></div>
+        </div>
+        <div class="order-row">
+          <div><div class="flex-r"><span class="ord-id">ORD-11029-KX</span><span class="badge-proc">PROCESSING</span></div><div class="ord-date">Placed Mar 14, 2026 · 1 item</div></div>
+          <div class="flex-r"><div class="ord-total-col"><div class="otl">Total</div><div class="otv">₱287.50</div></div><button class="btn-det">Details →</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CART — Feature 5: Localized Shipping + Feature 7: Shopping Cart ══ -->
+<div class="page" id="page-cart">
+  <div class="cart-layout">
+    <div class="cart-main">
+      <h2>Your Cart</h2>
+      <p>Review your custom creations before checkout.</p>
+      <div class="cart-item">
+        <div class="ci-img"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&q=80" alt="Classic T-Shirt"></div>
+        <div class="ci-info">
+          <h4>Classic T-Shirt</h4>
+          <p class="ci-desc">Pitch Black · Bolt Icon + Hand Drawn Logo</p>
+          <p class="ci-qty">Qty: 2 &nbsp;₱287.50 each</p>
+          <button class="btn-rm"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>Remove</button>
+        </div>
+        <div class="ci-price">₱575.00</div>
+      </div>
+    </div>
+    <div class="cart-sidebar">
+      <h3>Order Summary</h3>
+      <div class="sum-line"><span class="sl">Subtotal (2 items)</span><span>₱575.00</span></div>
+      <!-- Feature 5: Localized Shipping -->
+      <div class="sum-line"><span class="sl">Standard Shipping (Cebu)</span><span>₱80.00</span></div>
+      <div class="sum-total"><span>TOTAL</span><span class="sp">₱655.00</span></div>
+      <button class="btn-checkout">Proceed to Checkout →</button>
+      <div class="secure-note">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Secure 256-bit encrypted checkout
+      </div>
+      <div style="margin-top:1rem;padding:0.75rem;background:var(--mist);border-radius:5px;font-size:0.76rem;color:var(--ash);line-height:1.65;">
+        📦 <strong style="color:var(--ink);">Local Delivery:</strong> We ship anywhere in the Philippines. Cebu delivery in 2–3 days. Metro Manila in 4–5 days.
+      </div>
+    </div>
+  </div>
+  <div class="pf">
+    <div class="pf-logo"><div class="logo-mark" style="width:20px;height:20px;border-radius:3px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9 Q8 5 12 9 Q16 13 21 9"/><path d="M9 3 Q7 9 9 14"/></svg></div>&lt;blanko.&gt;</div>
+    <p>&copy; 2026 Blank Canvas Co. Affordable custom apparel for everyone.</p>
+    <div></div>
+  </div>
+</div>
+
+<script>
+// ── PAGE NAVIGATION ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const nt = document.getElementById('nt-' + name);
+  if (nt) nt.classList.add('active');
+  window.scrollTo(0, 0);
+  if (name === 'create' && !cvReady) initCanvas();
+}
+
+// hash routing
+if (location.hash === '#pricing') { showPage('pricing'); }
+
+// ── TOOL TABS ──
+function switchTool(name, el) {
+  document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tp-' + name).classList.add('active');
+}
+
+// ── GARMENT SELECT ──
+let gBase = 250, gName = 'Classic T-Shirt', qty = 1;
+const gopts = document.querySelectorAll('.gopt');
+function selGarment(el, name, price) {
+  gopts.forEach((g, i) => { g.classList.remove('sel'); document.getElementById('ck'+i).textContent = ''; });
+  el.classList.add('sel');
+  const idx = Array.from(gopts).indexOf(el);
+  document.getElementById('ck'+idx).textContent = '✓';
+  gBase = price; gName = name;
+  currentGarment = name;
+  updSummary();
+  if (cvReady) { history = []; redrawShirt(); }
+  else if (document.getElementById('page-create').classList.contains('active')) { initCanvas(); }
+}
+
+// ── COLOR SELECT ──
+let selColorName = 'Off White';
+function selColor(el, name, hex) {
+  document.querySelectorAll('.sw').forEach(s => s.classList.remove('sel'));
+  el.classList.add('sel');
+  selColorName = name; shirtCol = hex;
+  document.getElementById('color-lbl').textContent = 'Selected: ' + name;
+  document.getElementById('s-color').textContent = name;
+  if (cvReady) redrawShirt();
+}
+
+// ── QTY & SUMMARY ──
+function chQty(d) { qty = Math.max(1, qty + d); document.getElementById('qval').textContent = qty; updSummary(); }
+function updSummary() {
+  const fee = gBase * 0.15;
+  const total = (gBase + fee) * qty;
+  document.getElementById('s-garment').textContent = gName;
+  document.getElementById('s-price').textContent = '₱' + gBase.toFixed(2);
+  document.getElementById('s-fee').textContent = '₱' + (fee * qty).toFixed(2);
+  document.getElementById('s-total').textContent = '₱' + total.toFixed(2);
+}
+
+// ── BULK DISCOUNT ──
+function calcBulk(val) {
+  const q = parseInt(val) || 0;
+  const el = document.getElementById('bulk-disc');
+  if (q >= 50) { el.style.display='block'; el.textContent = '🎉 50+ units: 20% discount applied!'; }
+  else if (q >= 20) { el.style.display='block'; el.textContent = '✓ 20–49 units: 10% discount applied!'; }
+  else if (q >= 10) { el.style.display='block'; el.textContent = '✓ 10–19 units: 5% discount applied!'; }
+  else { el.style.display='none'; }
+}
+
+// ── SAVE DESIGN ──
+function saveDesign() {
+  const t = document.getElementById('saved-toast');
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+
+// ── CANVAS ──
+let cv, ctx, cvReady = false;
+let isDrawing = false, drawMode = 'pen', brushSz = 6, drawCol = '#111111';
+let shirtCol = '#f5f5f0', artImg = null, textLayers = [], history = [];
+let startX, startY;
+let showGrid = false;
+let currentGarment = 'Classic T-Shirt';
+
+function initCanvas() {
+  cv = document.getElementById('shirt-canvas');
+  if (!cv || cvReady) return;
+  ctx = cv.getContext('2d');
+  cvReady = true;
+  redrawShirt();
+
+  cv.addEventListener('mousedown', e => {
+    const p = pos(e);
+    isDrawing = true;
+    startX = p.x; startY = p.y;
+    history.push(ctx.getImageData(0, 0, cv.width, cv.height));
+    if (drawMode === 'pen' || drawMode === 'eraser') { ctx.beginPath(); ctx.moveTo(p.x, p.y); }
+  });
+  cv.addEventListener('mousemove', e => {
+    if (!isDrawing) return;
+    const p = pos(e);
+    if (drawMode === 'pen') { stroke(p); }
+    else if (drawMode === 'eraser') { erase(p); }
+    else if (drawMode === 'line' || drawMode === 'rect' || drawMode === 'circle') {
+      // preview shape: restore last history, draw shape
+      ctx.putImageData(history[history.length - 1], 0, 0);
+      drawShape(drawMode, startX, startY, p.x, p.y, false);
+    }
+  });
+  cv.addEventListener('mouseup', e => {
+    if (!isDrawing) return;
+    const p = pos(e);
+    if (drawMode === 'line' || drawMode === 'rect' || drawMode === 'circle') {
+      drawShape(drawMode, startX, startY, p.x, p.y, true);
+    }
+    isDrawing = false; ctx.beginPath();
+  });
+  cv.addEventListener('mouseleave', () => { isDrawing = false; });
+  cv.addEventListener('touchstart', e => { e.preventDefault(); const p = pos(e.touches[0]); isDrawing = true; startX=p.x; startY=p.y; history.push(ctx.getImageData(0,0,cv.width,cv.height)); ctx.beginPath(); ctx.moveTo(p.x,p.y); }, {passive:false});
+  cv.addEventListener('touchmove', e => { e.preventDefault(); if(!isDrawing) return; stroke(pos(e.touches[0])); }, {passive:false});
+  cv.addEventListener('touchend', () => { isDrawing=false; });
+}
+
+function pos(e) {
+  const r = cv.getBoundingClientRect();
+  return { x: (e.clientX - r.left) * (cv.width / r.width), y: (e.clientY - r.top) * (cv.height / r.height) };
+}
+
+function stroke(p) {
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.strokeStyle = drawCol; ctx.lineWidth = brushSz;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y);
+}
+
+function erase(p) {
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.lineWidth = brushSz * 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y);
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+function drawShape(mode, x1, y1, x2, y2, final) {
+  ctx.strokeStyle = drawCol; ctx.lineWidth = brushSz;
+  ctx.lineCap = 'round'; ctx.fillStyle = 'transparent';
+  ctx.beginPath();
+  if (mode === 'line') { ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); }
+  else if (mode === 'rect') { ctx.strokeRect(x1, y1, x2-x1, y2-y1); }
+  else if (mode === 'circle') {
+    const r = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+    ctx.arc(x1, y1, r, 0, Math.PI * 2); ctx.stroke();
+  }
+}
+
+function redrawShirt() {
+  if (!ctx) return;
+  const w = cv.width, h = cv.height;
+  ctx.clearRect(0, 0, w, h);
+
+  ctx.fillStyle = shirtCol;
+  ctx.strokeStyle = 'rgba(0,0,0,0.13)';
+  ctx.lineWidth = 1.5;
+
+  const g = currentGarment;
+
+  if (g === 'Classic T-Shirt') {
+    drawTshirt();
+  } else if (g === 'Heavyweight Hoodie') {
+    drawHoodie();
+  } else if (g === 'Sweatpants') {
+    drawSweatpants();
+  } else if (g === 'Sleeveless Top') {
+    drawSleeveless();
+  } else if (g === 'Zip Jacket') {
+    drawZipJacket();
+  }
+
+  // grid overlay
+  if (showGrid) {
+    ctx.strokeStyle = 'rgba(0,0,0,0.06)'; ctx.lineWidth = 0.5;
+    for(let x=0;x<w;x+=20){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
+    for(let y=0;y<h;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+    ctx.strokeStyle = 'rgba(0,0,0,0.13)'; ctx.lineWidth = 1.5;
+  }
+  // art
+  if (artImg) { ctx.globalAlpha=0.88; ctx.drawImage(artImg,155,160,150,150); ctx.globalAlpha=1; }
+  // text
+  textLayers.forEach(t => {
+    ctx.font = t.font; ctx.fillStyle = t.color; ctx.textAlign = 'center';
+    ctx.fillText(t.text, 230, t.y);
+  });
+}
+
+function applyFill() {
+  ctx.fillStyle = shirtCol;
+  ctx.strokeStyle = 'rgba(0,0,0,0.13)';
+  ctx.lineWidth = 1.5;
+}
+
+// ── T-SHIRT ──
+function drawTshirt() {
+  applyFill();
+  // body
+  ctx.beginPath();
+  ctx.moveTo(125,72); ctx.lineTo(48,150); ctx.lineTo(88,165);
+  ctx.lineTo(88,430); ctx.lineTo(372,430); ctx.lineTo(372,165);
+  ctx.lineTo(412,150); ctx.lineTo(335,72);
+  ctx.quadraticCurveTo(298,54,230,50);
+  ctx.quadraticCurveTo(162,54,125,72);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // left sleeve
+  ctx.beginPath(); ctx.moveTo(125,72); ctx.lineTo(48,150); ctx.lineTo(88,165); ctx.lineTo(142,118); ctx.closePath(); ctx.fill(); ctx.stroke();
+  // right sleeve
+  ctx.beginPath(); ctx.moveTo(335,72); ctx.lineTo(412,150); ctx.lineTo(372,165); ctx.lineTo(318,118); ctx.closePath(); ctx.fill(); ctx.stroke();
+  // design dashes
+  ctx.setLineDash([5,4]); ctx.strokeStyle='rgba(0,0,0,0.07)'; ctx.lineWidth=1;
+  ctx.strokeRect(145,148,170,195); ctx.setLineDash([]);
+  // collar hint
+  ctx.strokeStyle='rgba(0,0,0,0.09)'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(230,52,28,0.15*Math.PI,0.85*Math.PI); ctx.stroke();
+}
+
+// ── HOODIE ──
+function drawHoodie() {
+  applyFill();
+  // body — longer, wider, slightly tapered
+  ctx.beginPath();
+  ctx.moveTo(118,80); ctx.lineTo(38,162); ctx.lineTo(82,180);
+  ctx.lineTo(82,448); ctx.lineTo(378,448); ctx.lineTo(378,180);
+  ctx.lineTo(422,162); ctx.lineTo(342,80);
+  ctx.quadraticCurveTo(305,60,230,56);
+  ctx.quadraticCurveTo(155,60,118,80);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // left sleeve — longer for hoodie
+  ctx.beginPath(); ctx.moveTo(118,80); ctx.lineTo(38,162); ctx.lineTo(82,180); ctx.lineTo(135,124); ctx.closePath(); ctx.fill(); ctx.stroke();
+  // right sleeve
+  ctx.beginPath(); ctx.moveTo(342,80); ctx.lineTo(422,162); ctx.lineTo(378,180); ctx.lineTo(325,124); ctx.closePath(); ctx.fill(); ctx.stroke();
+  // hood — big rounded hood shape
+  const darkish = shadeColor(shirtCol, -12);
+  ctx.fillStyle = darkish; ctx.strokeStyle='rgba(0,0,0,0.13)'; ctx.lineWidth=1.5;
+  ctx.beginPath();
+  ctx.moveTo(158,80);
+  ctx.quadraticCurveTo(168,20,230,14);
+  ctx.quadraticCurveTo(292,20,302,80);
+  ctx.quadraticCurveTo(270,70,230,68);
+  ctx.quadraticCurveTo(190,70,158,80);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // hood drawstring
+  ctx.strokeStyle='rgba(0,0,0,0.12)'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(200,68); ctx.lineTo(196,100); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(260,68); ctx.lineTo(264,100); ctx.stroke();
+  // front pocket pouch
+  ctx.fillStyle = darkish;
+  ctx.beginPath();
+  ctx.roundRect(162,330,136,72,8);
+  ctx.fill(); ctx.stroke();
+  // center seam line
+  ctx.strokeStyle='rgba(0,0,0,0.08)'; ctx.lineWidth=1.5; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(230,100); ctx.lineTo(230,328); ctx.stroke(); ctx.setLineDash([]);
+  // design area
+  ctx.strokeStyle='rgba(0,0,0,0.06)'; ctx.lineWidth=1; ctx.setLineDash([5,4]);
+  ctx.strokeRect(148,148,164,170); ctx.setLineDash([]);
+}
+
+// ── SWEATPANTS ──
+function drawSweatpants() {
+  applyFill();
+  const cx = 230;
+  // waistband — darker band at top
+  const dark = shadeColor(shirtCol, -15);
+  ctx.fillStyle = dark;
+  ctx.beginPath(); ctx.roundRect(90,52,280,38,4); ctx.fill(); ctx.stroke();
+  // main body of pants — wide at top, two legs
+  ctx.fillStyle = shirtCol;
+  // left leg
+  ctx.beginPath();
+  ctx.moveTo(90,88); ctx.lineTo(82,440); ctx.lineTo(210,440); ctx.lineTo(228,88);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // right leg
+  ctx.beginPath();
+  ctx.moveTo(232,88); ctx.lineTo(250,440); ctx.lineTo(378,440); ctx.lineTo(370,88);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // crotch gusset
+  ctx.beginPath();
+  ctx.moveTo(228,88); ctx.quadraticCurveTo(230,180,232,88);
+  ctx.closePath(); ctx.fill();
+  // center seam
+  ctx.strokeStyle='rgba(0,0,0,0.07)'; ctx.lineWidth=1.5; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(230,90); ctx.quadraticCurveTo(230,200,230,440); ctx.stroke(); ctx.setLineDash([]);
+  // waist drawstring
+  ctx.strokeStyle='rgba(0,0,0,0.15)'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(185,70); ctx.lineTo(185,88); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(275,70); ctx.lineTo(275,88); ctx.stroke();
+  ctx.beginPath(); ctx.arc(230,68,10,0,Math.PI); ctx.stroke();
+  // left leg cuff
+  ctx.fillStyle = dark; ctx.strokeStyle='rgba(0,0,0,0.13)';
+  ctx.beginPath(); ctx.roundRect(82,420,128,26,3); ctx.fill(); ctx.stroke();
+  // right leg cuff
+  ctx.beginPath(); ctx.roundRect(250,420,128,26,3); ctx.fill(); ctx.stroke();
+  // left pocket
+  ctx.strokeStyle='rgba(0,0,0,0.08)'; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.roundRect(100,120,80,55,5); ctx.stroke(); ctx.setLineDash([]);
+}
+
+// ── SLEEVELESS TOP ──
+function drawSleeveless() {
+  applyFill();
+  // body — no sleeves, narrow shoulder straps
+  ctx.beginPath();
+  // left side
+  ctx.moveTo(152,52);
+  ctx.lineTo(142,80); // left shoulder outer
+  ctx.lineTo(142,430); ctx.lineTo(318,430); // bottom
+  ctx.lineTo(318,80); // right shoulder outer
+  ctx.lineTo(308,52); // right strap top
+  ctx.quadraticCurveTo(278,48,230,46);
+  ctx.quadraticCurveTo(182,48,152,52);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // armhole left — cut-in curve
+  ctx.fillStyle = '#ebebeb'; ctx.strokeStyle='rgba(0,0,0,0.10)';
+  ctx.beginPath();
+  ctx.moveTo(142,52); ctx.lineTo(90,52);
+  ctx.quadraticCurveTo(88,52,88,80);
+  ctx.lineTo(88,200);
+  ctx.quadraticCurveTo(88,210,100,210);
+  ctx.lineTo(142,180);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // armhole right
+  ctx.beginPath();
+  ctx.moveTo(318,52); ctx.lineTo(370,52);
+  ctx.quadraticCurveTo(372,52,372,80);
+  ctx.lineTo(372,200);
+  ctx.quadraticCurveTo(372,210,360,210);
+  ctx.lineTo(318,180);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // collar — wide scoop neck
+  ctx.fillStyle = '#ebebeb'; ctx.strokeStyle='rgba(0,0,0,0.10)';
+  ctx.beginPath(); ctx.ellipse(230,52,62,28,0,0,Math.PI); ctx.fill(); ctx.stroke();
+  // design area
+  ctx.setLineDash([5,4]); ctx.strokeStyle='rgba(0,0,0,0.07)'; ctx.lineWidth=1;
+  ctx.strokeRect(150,180,160,170); ctx.setLineDash([]);
+  // side seams
+  ctx.strokeStyle='rgba(0,0,0,0.07)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(142,200); ctx.lineTo(142,430); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(318,200); ctx.lineTo(318,430); ctx.stroke();
+}
+
+// ── ZIP JACKET ──
+function drawZipJacket() {
+  applyFill();
+  // body — same silhouette as tee but chunkier
+  ctx.beginPath();
+  ctx.moveTo(112,74); ctx.lineTo(28,160); ctx.lineTo(76,178);
+  ctx.lineTo(76,448); ctx.lineTo(384,448); ctx.lineTo(384,178);
+  ctx.lineTo(432,160); ctx.lineTo(348,74);
+  ctx.quadraticCurveTo(308,54,230,50);
+  ctx.quadraticCurveTo(152,54,112,74);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // left sleeve — longer, slightly wider
+  ctx.beginPath(); ctx.moveTo(112,74); ctx.lineTo(28,160); ctx.lineTo(76,178); ctx.lineTo(132,116); ctx.closePath(); ctx.fill(); ctx.stroke();
+  // right sleeve
+  ctx.beginPath(); ctx.moveTo(348,74); ctx.lineTo(432,160); ctx.lineTo(384,178); ctx.lineTo(328,116); ctx.closePath(); ctx.fill(); ctx.stroke();
+  // collar — stand-up zip collar
+  const dark = shadeColor(shirtCol, -14);
+  ctx.fillStyle = dark;
+  ctx.beginPath();
+  ctx.moveTo(175,50); ctx.lineTo(168,84);
+  ctx.quadraticCurveTo(200,76,230,74);
+  ctx.quadraticCurveTo(260,76,292,84);
+  ctx.lineTo(285,50);
+  ctx.quadraticCurveTo(258,42,230,40);
+  ctx.quadraticCurveTo(202,42,175,50);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // center zip line
+  ctx.strokeStyle='rgba(0,0,0,0.18)'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(230,74); ctx.lineTo(230,448); ctx.stroke();
+  // zip teeth
+  ctx.strokeStyle='rgba(0,0,0,0.10)'; ctx.lineWidth=1;
+  for(let y=90; y<430; y+=14) {
+    ctx.beginPath(); ctx.moveTo(224,y); ctx.lineTo(236,y); ctx.stroke();
+  }
+  // left chest pocket
+  const dp = shadeColor(shirtCol, -8);
+  ctx.fillStyle = dp; ctx.strokeStyle='rgba(0,0,0,0.10)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.roundRect(96,160,78,58,4); ctx.fill(); ctx.stroke();
+  // pocket zipper
+  ctx.strokeStyle='rgba(0,0,0,0.15)'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(100,160); ctx.lineTo(170,160); ctx.stroke();
+  // cuff bands
+  ctx.fillStyle = dark; ctx.strokeStyle='rgba(0,0,0,0.13)';
+  ctx.beginPath(); ctx.roundRect(28,156,52,18,2); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.roundRect(380,156,52,18,2); ctx.fill(); ctx.stroke();
+  // bottom hem band
+  ctx.beginPath(); ctx.roundRect(76,430,308,22,2); ctx.fill(); ctx.stroke();
+  // design area
+  ctx.setLineDash([5,4]); ctx.strokeStyle='rgba(0,0,0,0.07)'; ctx.lineWidth=1;
+  ctx.strokeRect(234,140,140,190); ctx.setLineDash([]);
+}
+
+// darken/lighten a hex color by amt (-255 to 255)
+function shadeColor(hex, amt) {
+  let c = hex.replace('#','');
+  if (c.length === 3) c = c.split('').map(x=>x+x).join('');
+  const num = parseInt(c, 16);
+  let r = Math.min(255, Math.max(0, (num >> 16) + amt));
+  let g = Math.min(255, Math.max(0, ((num >> 8) & 0xff) + amt));
+  let b = Math.min(255, Math.max(0, (num & 0xff) + amt));
+  return '#' + [r,g,b].map(v=>v.toString(16).padStart(2,'0')).join('');
+}
+
+function toggleGrid() { showGrid = !showGrid; redrawShirt(); }
+function undoLast() { if(history.length>0) { ctx.putImageData(history.pop(),0,0); } }
+function clearDesign() { artImg=null; textLayers=[]; history=[]; redrawShirt(); }
+function loadArt(e) {
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=ev=>{const img=new Image();img.onload=()=>{artImg=img;redrawShirt();};img.src=ev.target.result;};
+  r.readAsDataURL(f);
+}
+function addText() {
+  const t=document.getElementById('txt-input').value.trim(); if(!t) return;
+  const font=document.getElementById('txt-font').value;
+  const color=document.getElementById('txt-color').value;
+  textLayers.push({text:t,font,color,y:215+textLayers.length*30});
+  document.getElementById('txt-input').value='';
+  history.push(ctx.getImageData(0,0,cv.width,cv.height));
+  redrawShirt();
+}
+function setTool(tool, btn) {
+  drawMode=tool;
+  document.querySelectorAll('.dtool').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ctx && ctx.beginPath();
+}
+
+// ── ACCOUNT ──
+function switchAcct(panel, el) {
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('.acct-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('ap-'+panel).classList.add('active');
+}
+
+// Init canvas when create page first shown
+document.querySelector('[onclick="showPage(\'create\')"]') && null; // no-op
+
+// ── FEEDBACK MODAL ──
+function addToCartWithFeedback() {
+  document.getElementById('feedback-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // reset state
+  selectedRating = 0;
+  document.querySelectorAll('.fb-star').forEach(s => s.classList.remove('lit'));
+  document.getElementById('fb-textarea').value = '';
+  document.getElementById('fb-selected').forEach && null;
+  document.querySelectorAll('.fb-chip').forEach(c => c.classList.remove('sel'));
+  document.getElementById('fb-thankyou').style.display = 'none';
+  document.getElementById('fb-form').style.display = 'block';
+}
+
+function closeFeedback(goToCart) {
+  document.getElementById('feedback-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  if (goToCart) showPage('cart');
+}
+
+let selectedRating = 0;
+function setRating(val) {
+  selectedRating = val;
+  document.querySelectorAll('.fb-star').forEach((s, i) => {
+    s.classList.toggle('lit', i < val);
+  });
+}
+
+function toggleChip(el) {
+  el.classList.toggle('sel');
+}
+
+function submitFeedback() {
+  document.getElementById('fb-form').style.display = 'none';
+  document.getElementById('fb-thankyou').style.display = 'flex';
+  setTimeout(() => closeFeedback(true), 1800);
+}
+</script>
+
+<!-- ══ FEEDBACK MODAL ══ -->
+<div id="feedback-modal" class="fb-overlay">
+  <div class="fb-modal">
+    <!-- close X -->
+    <button class="fb-close" onclick="closeFeedback(true)" title="Skip">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <!-- FORM STATE -->
+    <div id="fb-form">
+      <div class="fb-eyebrow">Quick question before you check out ✦</div>
+      <h2 class="fb-title">TELL US WHAT<br>YOU THINK.</h2>
+      <p class="fb-sub">Your feedback shapes the future of blanko. It takes 20 seconds — we promise.</p>
+
+      <!-- Star rating -->
+      <div class="fb-section-label">How's the design experience so far?</div>
+      <div class="fb-stars">
+        <button class="fb-star" onclick="setRating(1)" title="1 star">★</button>
+        <button class="fb-star" onclick="setRating(2)" title="2 stars">★</button>
+        <button class="fb-star" onclick="setRating(3)" title="3 stars">★</button>
+        <button class="fb-star" onclick="setRating(4)" title="4 stars">★</button>
+        <button class="fb-star" onclick="setRating(5)" title="5 stars">★</button>
+      </div>
+
+      <!-- Feature chips -->
+      <div class="fb-section-label">What would you like to see added?</div>
+      <div class="fb-chips">
+        <button class="fb-chip" onclick="toggleChip(this)">More garment types</button>
+        <button class="fb-chip" onclick="toggleChip(this)">Pattern templates</button>
+        <button class="fb-chip" onclick="toggleChip(this)">AI design suggestions</button>
+        <button class="fb-chip" onclick="toggleChip(this)">Group ordering tools</button>
+        <button class="fb-chip" onclick="toggleChip(this)">3D preview</button>
+        <button class="fb-chip" onclick="toggleChip(this)">Mobile app</button>
+        <button class="fb-chip" onclick="toggleChip(this)">More font choices</button>
+        <button class="fb-chip" onclick="toggleChip(this)">COD payment</button>
+      </div>
+
+      <!-- Open text -->
+      <div class="fb-section-label">Anything else on your mind?</div>
+      <textarea id="fb-textarea" class="fb-textarea" placeholder="Tell us honestly — what could be better? What do you love? What's missing?"></textarea>
+
+      <!-- Actions -->
+      <div class="fb-actions">
+        <button class="fb-skip" onclick="closeFeedback(true)">Skip & go to cart</button>
+        <button class="fb-submit" onclick="submitFeedback()">
+          Submit Feedback
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- THANK YOU STATE -->
+    <div id="fb-thankyou" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 1rem;gap:1rem;">
+      <div class="fb-ty-icon">✦</div>
+      <div class="fb-ty-title">Thank you!</div>
+      <p class="fb-ty-sub">Your feedback helps us build something better for every creator in the Philippines. Taking you to your cart now…</p>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ── FEEDBACK MODAL STYLES ── */
+.fb-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(10,10,10,0.7);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.fb-overlay.open {
+  opacity: 1; pointer-events: all;
+}
+.fb-modal {
+  background: #fff; border-radius: 10px;
+  width: 100%; max-width: 500px;
+  padding: 2.5rem 2.5rem 2rem;
+  position: relative;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.28);
+  transform: translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  max-height: 90vh; overflow-y: auto;
+}
+.fb-overlay.open .fb-modal {
+  transform: translateY(0);
+}
+.fb-close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 30px; height: 30px; border: 1px solid #e5e5e5;
+  border-radius: 5px; background: #fff; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #aaa; transition: background 0.15s, color 0.15s;
+}
+.fb-close:hover { background: #f5f5f5; color: #111; }
+.fb-eyebrow {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #aaa; margin-bottom: 0.6rem;
+}
+.fb-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.6rem; line-height: 0.92; letter-spacing: 0.04em;
+  color: #0d0d0d; margin-bottom: 0.75rem;
+}
+.fb-sub {
+  font-size: 0.85rem; color: #888; line-height: 1.7; margin-bottom: 1.5rem;
+}
+.fb-section-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: #555; margin-bottom: 0.6rem; margin-top: 1.25rem;
+}
+/* Stars */
+.fb-stars {
+  display: flex; gap: 0.35rem; margin-bottom: 0.25rem;
+}
+.fb-star {
+  font-size: 2rem; background: none; border: none; cursor: pointer;
+  color: #e0e0e0; transition: color 0.15s, transform 0.1s;
+  line-height: 1; padding: 0;
+}
+.fb-star:hover, .fb-star.lit { color: #f59e0b; }
+.fb-star:active { transform: scale(1.2); }
+/* Chips */
+.fb-chips {
+  display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 0.25rem;
+}
+.fb-chip {
+  padding: 0.42rem 0.85rem; border: 1.5px solid #e0e0e0; border-radius: 99px;
+  background: #fff; font-size: 0.78rem; font-weight: 500; cursor: pointer;
+  font-family: inherit; color: #555; transition: all 0.15s;
+}
+.fb-chip:hover { border-color: #aaa; color: #111; }
+.fb-chip.sel { background: #0d0d0d; color: #fff; border-color: #0d0d0d; }
+/* Textarea */
+.fb-textarea {
+  width: 100%; padding: 0.75rem; border: 1.5px solid #e0e0e0; border-radius: 6px;
+  font-family: inherit; font-size: 0.85rem; resize: vertical; min-height: 90px;
+  outline: none; color: #111; line-height: 1.65; transition: border-color 0.15s;
+}
+.fb-textarea:focus { border-color: #0d0d0d; }
+.fb-textarea::placeholder { color: #bbb; }
+/* Actions */
+.fb-actions {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 1.5rem; gap: 0.75rem;
+}
+.fb-skip {
+  font-size: 0.8rem; font-weight: 500; color: #aaa; background: none;
+  border: none; cursor: pointer; font-family: inherit; transition: color 0.15s;
+  white-space: nowrap;
+}
+.fb-skip:hover { color: #555; }
+.fb-submit {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: #0d0d0d; color: #fff; border: none; border-radius: 5px;
+  padding: 0.7rem 1.4rem; font-size: 0.875rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: background 0.15s;
+  white-space: nowrap;
+}
+.fb-submit:hover { background: #1c1c1c; }
+/* Thank you */
+.fb-ty-icon {
+  font-size: 3rem; color: #0d0d0d;
+  animation: popIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
+}
+.fb-ty-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem; letter-spacing: 0.04em; color: #0d0d0d;
+}
+.fb-ty-sub { font-size: 0.85rem; color: #888; line-height: 1.7; max-width: 300px; }
+@keyframes popIn {
+  from { transform: scale(0.5) rotate(-20deg); opacity: 0; }
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+</style>
+</body>
+</html>
